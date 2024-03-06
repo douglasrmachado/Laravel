@@ -23,6 +23,10 @@ class NivelController extends Controller
         return $data;
     }
 
+    public function create() {
+        //
+    }
+
     public function store(Request $request) {
         
         $obj = new Nivel();
@@ -42,6 +46,11 @@ class NivelController extends Controller
         return $data;
             
     }    
+
+    public function edit() {
+
+        //
+    }
 
     public function update(Request $request, string $id) {
         

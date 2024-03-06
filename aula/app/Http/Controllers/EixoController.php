@@ -23,6 +23,10 @@ class EixoController extends Controller
         return $data;
     }
 
+    public function create() {
+        //
+    }
+
     public function store(Request $request) {
         
         $obj = new Eixo();
@@ -42,6 +46,11 @@ class EixoController extends Controller
         return $data;
             
     }    
+
+    public function edit(string $id) {
+
+        //
+    }
 
     public function update(Request $request, string $id) {
         
