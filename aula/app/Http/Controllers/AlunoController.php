@@ -18,7 +18,7 @@ class AlunoController extends Controller {
     }
 
     public function index() {
-        $data = $this->repository->selectAllWith(['turma', 'user']);
+        $data = $this->repository->selectAll();
         return $data;    
     }
 
