@@ -22,4 +22,8 @@ class Curso extends Model
 
         return $this->belongsTo('\App\Models\Nivel');
     }
+
+    public function turma() {
+        return $this->hasMany(Turma::class);
+    }
 }

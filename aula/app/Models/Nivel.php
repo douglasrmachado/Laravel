@@ -16,6 +16,6 @@ class Nivel extends Model
 
     public function curso() {
 
-        $this->hasMany('\App\Models\Curso');
+        return $this->hasMany('\App\Models\Curso');
     }
 }
