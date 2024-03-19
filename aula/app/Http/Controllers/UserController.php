@@ -18,7 +18,7 @@ class UserController extends Controller {
     }
 
     public function index() {
-        $data = $this->repository->selectAllWith(['role', 'curso']);
+        $data = $this->repository->selectAll();
         return $data;
     }
 
@@ -39,15 +39,8 @@ class UserController extends Controller {
             $obj->curso()->associate($objCurso);
             $obj->role()->associate($objRole);
             $this->repository->save($obj);
-            return redirect()->route('users.role', 'COORDENADOR');
+            return "OK!";
         }
-        
-        return view('message')
-                    ->with('template', "main")
-                    ->with('type', "danger")
-                    ->with('titulo', "OPERAÇÃO INVÁLIDA")
-                    ->with('message', "Não foi possível efetuar o procedimento!")
-                    ->with('link', "home");
     }
 
     public function show(string $id ){
@@ -67,6 +60,7 @@ class UserController extends Controller {
         $objRole = (new RoleRepository())->findById($request->role_id);
         
         if(isset($obj) && isset($objCurso) && isset($objRole)) {
+           
             $obj->name = mb_strtoupper($request->nome, 'UTF-8');
             $obj->email = mb_strtolower($request->email, 'UTF-8');
             $obj->password = Hash::make($request->password); 

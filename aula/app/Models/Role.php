@@ -11,7 +11,7 @@ class Role extends Model
 
     public function resource() {
 
-        return $this->belongToMany('\App\Models\Resources', 'permissions');
+        return $this->belongToMany('\App\Models\Resource', 'permissions');
         
     }
 }
