@@ -18,7 +18,7 @@ class ComprovanteController extends Controller {
     }
 
     public function index() {
-        $data = $this->repository->selectAllWith(['aluno', 'categoria', 'user']);
+        $data = $this->repository->selectAll();
         return $data;    
     }
 

@@ -19,7 +19,7 @@ class DeclaracaoController extends Controller {
     }
 
     public function index() {
-        $data = $this->repository->selectAllWith(['aluno', 'comprovante']);
+        $data = $this->repository->selectAll();
         return $data;    
     }
 
@@ -29,31 +29,22 @@ class DeclaracaoController extends Controller {
 
     public function store(Request $request) {
 
-        // Verirfica se já foi gerado
-        $aux = $this->repository->findFirstByColumn('comprovante_id', $request->comprovante_id);
-        if(isset($aux)) {
+        $objAluno = (new AlunoRepository())->findById($request->aluno_id);
+        $objComprovante = (new ComprovanteRepository())->findById($request->comprovante_id);   
+
+        if(isset($objAluno) && isset($objComprovante)) {
+            $obj = new Declaracao();
+            $obj->hash = Hash::make($request->aluno_id + $request->comprovante_id);;
+            $obj->data = date('Y-m-d H:i:s');
+            $obj->aluno()->associate($objAluno);
+            $obj->comprovante()->associate($objComprovante);
+            $this->repository->save($obj);
             // Gerar Declaracao
-            $this->makeCertification($aux);
+            // $this->makeCertification($obj);
             return "<h1>Store - OK!</h1>";
         }
-        else {
-            $objAluno = (new AlunoRepository())->findById($request->aluno_id);
-            $objComprovante = (new ComprovanteRepository())->findById($request->comprovante_id);   
-
-            if(isset($objAluno) && isset($objComprovante)) {
-                $obj = new Declaracao();
-                $obj->hash = Hash::make($request->aluno_id + $request->comprovante_id);;
-                $obj->data = date('Y-m-d H:i:s');
-                $obj->aluno()->associate($objAluno);
-                $obj->comprovante()->associate($objComprovante);
-                $this->repository->save($obj);
-                // Gerar Declaracao
-                $this->makeCertification($obj);
-                return "<h1>Store - OK!</h1>";
-            }
-            
-            return "<h1>Store - Not found Aluno or Comprovante!</h1>";
-        }
+        
+        return "<h1>Store - Not found Aluno or Comprovante!</h1>";
     }
 
     public function show(string $id) {
